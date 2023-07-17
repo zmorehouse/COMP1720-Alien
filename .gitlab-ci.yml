@@ -61,14 +61,13 @@ monster:
     - python /validate.py valid-dimensions monster.png 800 800
 
 # check that you've filled out your statement of originality
-statement-of-originality:
+references:
   stage: test
   allow_failure: true
   tags:
     - comp1720
   script:
-    - python /validate.py schema ./statement-of-originality.md $SCHEMA_BASE_URL/soo-md.json
-    - python /validate.py ref-check ./statement-of-originality.md 2
+    - python /validate.py ref-check ./references.md 2
 
 # this task copies the sketch files to the COMP1720 test webserver so they can
 # be viewed on-campus
