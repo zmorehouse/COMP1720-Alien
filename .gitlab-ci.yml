@@ -1,7 +1,7 @@
 image: comp1720/site-gitlab-ci:0.6.5
 
 variables:
-  SCHEMA_BASE_URL: https://comp.anu.edu.au/courses/comp1720/assets/schemas  
+  SCHEMA_BASE_URL: https://comp.anu.edu.au/courses/comp1720/assets/schemas
   DEST_DIR: /srv/gitlab-ce-pages/public/main/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/
   COMP1720_TEST_URL: https://comp1720.cecs.anu.edu.au/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/
 
@@ -36,16 +36,12 @@ artist-statement-wordcount:
     - echo "Word Count:"
     - var="$(cat artist-statement.md | wc -w)"
     - > 
-      if (( $var > 100)); then
-        exit 0 ;
-      else
+      if (( $var < 100)); then
         echo "Your artist statement should be more than 100 words!";
         exit 1;
       fi
     - >
       if (( $var > 250)); then
-        exit 0 ;
-      else
         echo "Your artist statement should only be 200 words!";
         exit 1;
       fi
@@ -60,7 +56,7 @@ monster:
     - python /validate.py exists monster.png
     - python /validate.py valid-dimensions monster.png 800 800
 
-# check that you've filled out your statement of originality
+# check that you've filled out your references file
 references:
   stage: test
   allow_failure: true
@@ -81,7 +77,6 @@ deploy:
   script:
     - mkdir -p $DEST_DIR
     # copy assets folder, and all top-level .html and .js files
-    - cp -r assets *.html *.js $DEST_DIR
-    - if [ -e monster.png ]; then cp monster.png $DEST_DIR; fi
+    - cp -r * $DEST_DIR
     - echo "your sketch should be visible shortly (on campus only) at the test URL"
     - echo $COMP1720_TEST_URL
