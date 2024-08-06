@@ -1,3 +1,6 @@
+let stars = []; //global variable (array)
+let numStars = 200; //variable to control number of stard
+
 function setup() {
   // create the canvas (800px wide, 800px high)
   createCanvas(800, 800);
@@ -7,17 +10,21 @@ function setup() {
   strokeWeight(5);
   rect(0, 0, width, height);
   strokeWeight(1);
-
-
+  
+  
+  for (let i = 0; i < numStars; i++) {
+    stars[i] = createVector(random(width), random(height), random(1,6));
+}
+  
 
 }
 
 let angry = false;
 
 function draw() {
-background(255)
-
-  if (frameCount % 300 === 0) {
+  canvasBg() 
+  
+  if (frameCount % 200 === 0) {
      angry = !angry;
   }
   
@@ -59,6 +66,18 @@ function eyeball(x, y, angry) {
 
 }
 
-function mouth(angry) {
+
+
+function canvasBg() {
+
+
+  background(9, 15, 79);
   
+  fill(255);
+  for (let i = 0; i < numStars; i++){
+    ellipse(stars[i].x, stars[i].y, stars[i].z,stars[i].z);
+  }
+
 }
+
+// Inspo 1 https://editor.p5js.org/jesse_harding/sketches/0szF7gcAx 
