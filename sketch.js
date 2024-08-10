@@ -1,70 +1,34 @@
 let stars = [];
 let shootingStars = []; 
 let numStars = 200;
+let shootingStarCounter = 0;
+let time = 0;  
+
+// Arrays to store independent values for each eye
+let verticalSpeeds = [0.5, 0.7, 0.9];
+let horizontalSpeeds = [0.3, 0.4, 0.5];
+let timeOffsets = [0, 50, 100];
 
 function setup() {
-  // create the canvas (800px wide, 800px high)
   createCanvas(800, 800);
 
-  // draw a border to help you see the size
-  // this isn't compulsory (remove this code if you like)
-  strokeWeight(5);
-  rect(0, 0, width, height);
-  strokeWeight(1);
-  
   for (let i = 0; i < numStars; i++) {
     stars[i] = createVector(random(width), random(height), random(1, 6));
   }
 }
 
-let angry = false;
-let shootingStarCounter = 0; 
-
 function draw() {
   canvasBg(); 
-  
   updateStars();
   drawShootingStars(); 
-
-  strokeWeight(1);
-  eyeball(150, 275, angry);
-  eyeball(400, 200, angry);
-  eyeball(650, 275, angry);
-  
-  strokeWeight(0);
-  circle(width / 2, 700, 500);
-  rect(151, 700, 498, 400, 20);
-  
-
-  if (frameCount % 200 === 0) {
-    angry = !angry;
-  }
+  alien();
+  time += 0.05;  
 }
 
 function keyTyped() {
   if (key === " ") {
     saveCanvas("monster.png");
   }
-}
-
-function eyeball(x, y, angry) {
-  fill(255);
-  circle(x, y, 100);
-  fill(0);
-  circle(x, y, 25);
-
-  if (angry) {
-    fill('green');
-    arc(x, y, 100, 100, PI, 0);
-    fill('black');
-    strokeWeight(5);
-    line(x - 35, y - 45, x, y - 35);
-    line(x + 35, y - 45, x, y - 35);
-    strokeWeight(1);
-  }
-
-  fill('green');
-  arc(x, y + 35, 75, 30, 0, PI);
 }
 
 function canvasBg() {
@@ -88,7 +52,6 @@ function canvasBg() {
 function updateStars() {
   for (let i = 0; i < numStars; i++) {
     stars[i].x -= 0.5; 
-
 
     if (stars[i].x < 0) {
       stars[i].x = width;
@@ -131,6 +94,60 @@ function drawShootingStars() {
       shootingStars.splice(i, 1);
     }
   }
-    strokeWeight(0);
+  strokeWeight(0);
   stroke(0);
 }
+
+function alien() {
+  fill(255);
+  eyeball(150, 275, 0);
+  eyeball(400, 200, 1);
+  eyeball(650, 275, 2);
+
+ let bodySway = sin(time * 0.4) * 5; // Subtle horizontal sway effect
+  let headSway = sin(time * 0.5) * 5; // Subtle horizontal sway effect for the head
+
+  fill('green');
+  rect(275 + bodySway, 625, 250, 300, 35); // Body with sway
+  rect(375 + bodySway, 585, 50, 75); // Neck with sway
+  rect(275 + headSway, 350, 250, 250, 500, 500, 100, 100); // Head with sway
+
+  fill(255);
+  strokeWeight(1);
+  stroke(0);
+  arc(400 + headSway, 525, 100, 100, 0, PI); // Mouth with head sway
+  strokeWeight(0);
+}
+function eyeball(x, y, index) {
+  // Apply vertical and horizontal oscillation
+  let floatY = y + sin(time * verticalSpeeds[index] + timeOffsets[index]) * 10;
+  let floatX = x + sin(time * horizontalSpeeds[index] + timeOffsets[index]) * 5;
+  
+  // Adjust the connection point to the bottom of the eyeball
+  let eyeballBottomY = floatY + 62.5; // Adjusted to be at the bottom of the eyeball (radius of 125/2)
+  
+  // Control points for the arc
+  let controlPointX = (floatX + 400) / 2;
+  let controlPointY = max(floatY, 450) + 50;
+
+  // Draw the curved line
+  noFill();
+  stroke('green');
+  strokeWeight(15);
+  beginShape();
+  vertex(400, 450); // Head center
+  bezierVertex(controlPointX, controlPointY, floatX, eyeballBottomY, floatX, eyeballBottomY);
+  endShape();
+
+  noStroke();
+
+  fill(255);
+  circle(floatX, floatY, 125); // Draw the eyeball
+  fill(0);
+  circle(floatX, floatY, 35);  // Draw the pupil
+  fill('green');
+  arc(floatX, floatY + 50, 80, 30, 0, PI);  // Bottom eyelid
+  arc(floatX, floatY - 50, 80, 30, PI, TWO_PI);  // Top eyelid
+}
+
+
