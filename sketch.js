@@ -1,27 +1,31 @@
+// Anti-gravity Alien by Zac Morehouse u7637337
+
+// General Variables
 let stars = [];
 let shootingStars = []; 
 let numStars = 200;
 let shootingStarCounter = 0;
 let time = 0;  
 
-// Arrays to store independent values for each eye
+// Arrays to store unique values for each eye
 let verticalSpeeds = [0.5, 0.7, 0.9];
 let horizontalSpeeds = [0.3, 0.4, 0.5];
 let timeOffsets = [0, 50, 100];
 
 function setup() {
   createCanvas(800, 800);
-
+  // Generate some random stars
   for (let i = 0; i < numStars; i++) {
     stars[i] = createVector(random(width), random(height), random(1, 6));
   }
 }
 
 function draw() {
+  // Each item has been extrapolated into its own function for legibility sake 
   canvasBg(); 
-  updateStars();
-  drawShootingStars(); 
-  alien();
+  updateStars(); 
+  drawShootingStars();  
+  alien(); 
   time += 0.05;  
 }
 
@@ -34,9 +38,11 @@ function keyTyped() {
 function canvasBg() {
   background(9, 15, 79);
   fill(255);
+  // Add stars
   for (let i = 0; i < numStars; i++) {
     ellipse(stars[i].x, stars[i].y, stars[i].z, stars[i].z);
   }
+  // Draw the moon and craters
   fill('rgb(190, 190, 190)');
   ellipse(width / 2, height, 1000, 200);
   fill('rgb(179, 179, 179)');
@@ -50,16 +56,16 @@ function canvasBg() {
 }
 
 function updateStars() {
+  // Move stars across the screen
   for (let i = 0; i < numStars; i++) {
     stars[i].x -= 0.5; 
-
     if (stars[i].x < 0) {
       stars[i].x = width;
       stars[i].y = random(height);
       stars[i].z = random(1, 6);
     }
   }
-
+  // Every 120 frames, create a shooting star
   shootingStarCounter++;
   if (shootingStarCounter > 120) { 
     createShootingStar();
@@ -68,6 +74,7 @@ function updateStars() {
 }
 
 function createShootingStar() {
+  // Generate a random location for the shooting star
   let shootingStar = {
     x: width,
     y: random(height),
@@ -79,17 +86,15 @@ function createShootingStar() {
 }
 
 function drawShootingStars() {
+  // Draw the shooting star
   strokeWeight(2);
   stroke(255);
   for (let i = shootingStars.length - 1; i >= 0; i--) {
     let star = shootingStars[i];
-    
     line(star.x, star.y, star.x - star.length, star.y - star.length);
-    
     star.x -= star.speed;
     star.y -= star.speed;
     star.alpha -= 5; 
-
     if (star.alpha <= 0) {
       shootingStars.splice(i, 1);
     }
@@ -100,37 +105,39 @@ function drawShootingStars() {
 
 function alien() {
   fill(255);
-  eyeball(150, 275, 0);
+  eyeball(150, 275, 0); // Draw all three eyeballs
   eyeball(400, 200, 1);
   eyeball(650, 275, 2);
-
- let bodySway = sin(time * 0.45) * 5; // Subtle horizontal sway effect
-  let headSway = sin(time * 0.5) * 5; // Subtle horizontal sway effect for the head
-
+  // Initialise variables for the sway / anti gravity effects
+  let bodySway = sin(time * 0.45) * 5; 
+  let headSway = sin(time * 0.5) * 5; 
+  // Draw the arms
+  fill('rgb(0,88,0)');
+  rect(175 + bodySway, 700 + bodySway, 300, 25, 50); 
+  rect(425 + bodySway, 700 + bodySway, 200, 25, 50); 
+  // Draw the body, neck and head
   fill('green');
-  rect(275 + bodySway, 625, 250, 200, 50, 50, 450, 450); // Body with sway
-  rect(375 + bodySway, 585, 50, 75); // Neck with sway
-  rect(275 + headSway, 350, 250, 250, 500, 500, 100, 100); // Head with sway
-
+  rect(275 + bodySway, 625, 250, 200, 50, 50, 450, 450);
+  rect(375 + bodySway, 585, 50, 75); 
+  rect(275 + headSway, 350, 250, 250, 500, 500, 100, 100); 
+  // Draw the mouth
   fill(255);
   strokeWeight(1);
   stroke(0);
-  arc(400 + headSway, 525, 100, 100, 0, PI); // Mouth with head sway
+  arc(400 + headSway, 525, 100, 100, 0, PI); 
   strokeWeight(0);
 }
 function eyeball(x, y, index) {
-  // Apply vertical and horizontal oscillation
+  // Create randomised variables for the eyeball position
   let floatY = y + sin(time * verticalSpeeds[index] + timeOffsets[index]) * 10;
   let floatX = x + sin(time * horizontalSpeeds[index] + timeOffsets[index]) * 5;
   
-  // Adjust the connection point to the bottom of the eyeball
-  let eyeballBottomY = floatY + 62.5; // Adjusted to be at the bottom of the eyeball (radius of 125/2)
-  
-  // Control points for the arc
+  // Create a variable for the connection point to the bottom of the eyeball
+  let eyeballBottomY = floatY + 62.5; 
   let controlPointX = (floatX + 400) / 2;
   let controlPointY = max(floatY, 450) + 50;
 
-  // Draw the curved line
+  // Draw the curved line to connect the eyes
   noFill();
   stroke('green');
   strokeWeight(15);
@@ -138,16 +145,15 @@ function eyeball(x, y, index) {
   vertex(400, 450); // Head center
   bezierVertex(controlPointX, controlPointY, floatX, eyeballBottomY, floatX, eyeballBottomY);
   endShape();
-
   noStroke();
 
+  // Draw the eyeballs themselves
   fill(255);
-  circle(floatX, floatY, 125); // Draw the eyeball
+  circle(floatX, floatY, 125); 
   fill(0);
-  circle(floatX, floatY, 35);  // Draw the pupil
+  circle(floatX, floatY, 35);  
   fill('green');
-  arc(floatX, floatY + 50, 80, 30, 0, PI);  // Bottom eyelid
-  arc(floatX, floatY - 50, 80, 30, PI, TWO_PI);  // Top eyelid
+  arc(floatX, floatY + 50, 80, 30, 0, PI);  
+  arc(floatX, floatY - 50, 80, 30, PI, TWO_PI); 
 }
-
 
