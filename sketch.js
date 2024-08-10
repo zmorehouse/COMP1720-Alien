@@ -104,11 +104,11 @@ function alien() {
   eyeball(400, 200, 1);
   eyeball(650, 275, 2);
 
- let bodySway = sin(time * 0.4) * 5; // Subtle horizontal sway effect
+ let bodySway = sin(time * 0.45) * 5; // Subtle horizontal sway effect
   let headSway = sin(time * 0.5) * 5; // Subtle horizontal sway effect for the head
 
   fill('green');
-  rect(275 + bodySway, 625, 250, 300, 35); // Body with sway
+  rect(275 + bodySway, 625, 250, 200, 50, 50, 450, 450); // Body with sway
   rect(375 + bodySway, 585, 50, 75); // Neck with sway
   rect(275 + headSway, 350, 250, 250, 500, 500, 100, 100); // Head with sway
 
