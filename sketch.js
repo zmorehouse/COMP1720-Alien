@@ -112,21 +112,38 @@ function alien() {
   let bodySway = sin(time * 0.45) * 5; 
   let headSway = sin(time * 0.5) * 5; 
   // Draw the arms
-  fill('rgb(0,88,0)');
-  rect(175 + bodySway, 700 + bodySway, 300, 25, 50); 
-  rect(425 + bodySway, 700 + bodySway, 200, 25, 50); 
+
+  noFill();
+  strokeWeight(18);
+  stroke('rgb(0,88,0)');
+
+  arc(325 + bodySway,  575 + bodySway, 300, 300, HALF_PI, PI - QUARTER_PI);
+  arc(475 + bodySway,  575 + bodySway, 300, 300, QUARTER_PI, HALF_PI);
+
+  strokeWeight(0)
+fill('rgb(0,88,0)')
+  circle(215 + bodySway,  675 + bodySway, 35);
+  circle(585 + bodySway,  675 + bodySway, 35);
+
+  rocket();
   // Draw the body, neck and head
   fill('green');
-  rect(275 + bodySway, 625, 250, 200, 50, 50, 450, 450);
+
+  rect(300 + bodySway, 625, 200, 225, 65, 65, 450, 450);
   rect(375 + bodySway, 585, 50, 75); 
   rect(275 + headSway, 350, 250, 250, 500, 500, 100, 100); 
+
+  fill('rgb(0,88,0)');
+  circle(395 + headSway,  425, 5)
+  circle(405 + headSway,  425, 5)
+
   // Draw the mouth
   fill(255);
-  strokeWeight(1);
-  stroke(0);
-  arc(400 + headSway, 525, 100, 100, 0, PI); 
   strokeWeight(0);
+
+  arc(400 + headSway, 525, 100, 100, 0, PI); 
 }
+
 function eyeball(x, y, index) {
   // Create randomised variables for the eyeball position
   let floatY = y + sin(time * verticalSpeeds[index] + timeOffsets[index]) * 10;
@@ -157,3 +174,6 @@ function eyeball(x, y, index) {
   arc(floatX, floatY - 50, 80, 30, PI, TWO_PI); 
 }
 
+function rocket() {
+  
+}
