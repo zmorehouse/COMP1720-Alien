@@ -1,6 +1,5 @@
 # Artist Statement
 
-Write your artist statement in this file (max 200 words).
+My artwork depicts a friendly monster residing on a distant moon. The peice seeks to explore the concept of anti-gravity - using subtle and dynamic body movements to invoke a sense of weightlessness and otherworldliness. The alien, with it's lightweight and fluid form, moves freely - its body parts swaying independently in an almost dreamlike motion. Behind it, a distant universe flies by, depicting the aliens' uniquely cosmic environment. This interplay of movement and stillness seeks to capture the essence of an otherworldly habitat, inviting the viewer to contemplate the unique challenges and opportunities of a being in such a setting.
 
-Answer the questions outlined on the assessment page:
-- https://comp.anu.edu.au/courses/comp1720/assessments/monster/#artist-statement
+The alien itself holds two items - a rocket ship and a UFO. With no other points of reference, the viewer is left to contemplate: Are these merely toys, or does the alien exist on an incomprehensible scale? What else might we be missing? Is the alien's smile genuine, or is there something more sinister lurking beneath it? In this way, my artwork not only serves as a testament to the storytelling capabilities that emerge from the intersection of technology and artistic expression, but simultaneously invites viewers to ponder the mysteries of extraterrestrial existence.
