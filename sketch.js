@@ -1,5 +1,4 @@
-// Anti-gravity Alien by Zac Morehouse u7637337
-
+// The Anti-gravity Alien by Zac Morehouse - u7637337
 // General Variables
 let stars = [];
 let shootingStars = []; 
@@ -14,7 +13,7 @@ let timeOffsets = [0, 50, 100];
 
 function setup() {
   createCanvas(800, 800);
-  // Generate some random stars
+  // Generate some random stars. Inspired by https://editor.p5js.org/jesse_harding/sketches/0szF7gcAx 
   for (let i = 0; i < numStars; i++) {
     stars[i] = createVector(random(width), random(height), random(1, 6));
   }
@@ -112,35 +111,31 @@ function alien() {
   let bodySway = sin(time * 0.45) * 5; 
   let headSway = sin(time * 0.5) * 5; 
   // Draw the arms
-
   noFill();
   strokeWeight(18);
   stroke('rgb(0,88,0)');
-
   arc(325 + bodySway,  575 + bodySway, 300, 300, HALF_PI, PI - QUARTER_PI);
   arc(475 + bodySway,  575 + bodySway, 300, 300, QUARTER_PI, HALF_PI);
-
   strokeWeight(0)
-fill('rgb(0,88,0)')
+  fill('rgb(0,88,0)')
+  // Draw the hands
   circle(215 + bodySway,  675 + bodySway, 35);
   circle(585 + bodySway,  675 + bodySway, 35);
-
-  rocket();
+  // Draw the UFO and Rocket toys
+  rocket(bodySway);
+  ufo(bodySway);    
   // Draw the body, neck and head
-  fill('green');
-
+  fill('rgb(0,128,0)');
   rect(300 + bodySway, 625, 200, 225, 65, 65, 450, 450);
   rect(375 + bodySway, 585, 50, 75); 
   rect(275 + headSway, 350, 250, 250, 500, 500, 100, 100); 
-
   fill('rgb(0,88,0)');
+  // Draw the nose
   circle(395 + headSway,  425, 5)
   circle(405 + headSway,  425, 5)
-
   // Draw the mouth
   fill(255);
   strokeWeight(0);
-
   arc(400 + headSway, 525, 100, 100, 0, PI); 
 }
 
@@ -148,32 +143,78 @@ function eyeball(x, y, index) {
   // Create randomised variables for the eyeball position
   let floatY = y + sin(time * verticalSpeeds[index] + timeOffsets[index]) * 10;
   let floatX = x + sin(time * horizontalSpeeds[index] + timeOffsets[index]) * 5;
-  
   // Create a variable for the connection point to the bottom of the eyeball
   let eyeballBottomY = floatY + 62.5; 
   let controlPointX = (floatX + 400) / 2;
   let controlPointY = max(floatY, 450) + 50;
-
-  // Draw the curved line to connect the eyes
+  // Draw a curved line to connect the eyes
   noFill();
-  stroke('green');
+  stroke('rgb(0,128,0)');
   strokeWeight(15);
   beginShape();
   vertex(400, 450); // Head center
   bezierVertex(controlPointX, controlPointY, floatX, eyeballBottomY, floatX, eyeballBottomY);
   endShape();
   noStroke();
-
   // Draw the eyeballs themselves
   fill(255);
   circle(floatX, floatY, 125); 
   fill(0);
   circle(floatX, floatY, 35);  
-  fill('green');
+  fill('rgb(0,128,0)');
   arc(floatX, floatY + 50, 80, 30, 0, PI);  
   arc(floatX, floatY - 50, 80, 30, PI, TWO_PI); 
 }
 
-function rocket() {
-  
+function rocket(bodySway) {
+  // Push and pop used w/ translate and rotate. The rocket has been drawn normally at a large scale to make drawing easier - then translated to the size.
+  push();
+  translate(215 + bodySway, 625 + bodySway); 
+  rotate(QUARTER_PI);
+  scale(0.25);
+  strokeWeight(3);
+  stroke(0);
+  fill('rgb(219,0,0)');
+  triangle(30, 75, 58, 26, 86, 75);
+  fill('rgb(205,205,205)');
+  rect(30, 75, 56, 100);
+  fill('rgb(127,182,200)');
+  strokeWeight(3);
+  stroke('white');
+  circle(57, 115, 30);
+  strokeWeight(3);
+  stroke(0);
+  fill('rgb(219,0,0)');
+  noStroke();
+  quad(30, 175, 86, 175, 105, 210, 15, 210);
+  // Draw fire
+  for (let i = 0; i < 10; i++) {
+    let flameOffset = random(-25, 25);
+    fill(255, 100 + i * 30, 0, 255 - i * 50);
+    beginShape();
+    vertex(57 + flameOffset, 210);
+    bezierVertex(42 + flameOffset, 250, 72 + flameOffset, 250, 57 + flameOffset, 210);
+    endShape(CLOSE);
+  }
+  pop();
+}
+
+function ufo(bodySway) {
+  // Same deal with the UFO. Was drawn at a large scale than translated
+  push();
+  translate(585 + bodySway, 655 + bodySway); 
+  scale(0.3);
+  strokeWeight(2);
+  stroke(0);
+  fill('rgb(150,150,150)');
+  ellipse(0, 0, 120, 40);
+  fill('rgb(127,182,200)');
+  ellipse(0, -20, 70, 50);
+  fill('rgb(255,255,255)5)');
+  ellipse(0, 10, 10, 10);
+  ellipse(-25, 10, 10, 10);
+  ellipse(25, 10, 10, 10);
+  ellipse(50, 10, 10, 10);
+  ellipse(-50, 10, 10, 10);
+  pop();
 }
